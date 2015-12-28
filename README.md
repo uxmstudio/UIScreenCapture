@@ -10,7 +10,7 @@ Simply capture screenshots and create screen recordings from code.
 
 # Installation
 ## Cocoapods
-Loader is available through [CocoaPods](http://cocoapods.org). To install
+UIScreenCapture is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
