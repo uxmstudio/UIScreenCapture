@@ -163,6 +163,9 @@ typedef UIImage *(^UIScreenCaptureUIImageExtractor)(NSObject* inputObject);
                                           &pxbuffer);
     
     NSParameterAssert(status == kCVReturnSuccess && pxbuffer != NULL);
+    if (status != kCVReturnSuccess && pxbuffer == NULL) {
+        [NSException raise:@"No Pixel Buffer" format:@"There was an error creating the pixel buffer."];
+    }
     
     CVPixelBufferLockBaseAddress(pxbuffer, 0);
     void *pxdata = CVPixelBufferGetBaseAddress(pxbuffer);
