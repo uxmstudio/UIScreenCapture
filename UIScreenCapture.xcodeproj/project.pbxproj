@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		611528B21C31872500A6B2EF /* UIScreenCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 611528B11C31872500A6B2EF /* UIScreenCapture.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		611528BA1C318B7500A6B2EF /* UIScreenCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 611528B91C318B7500A6B2EF /* UIScreenCapture.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		611528AE1C31872500A6B2EF /* UIScreenCapture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UIScreenCapture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		611528B11C31872500A6B2EF /* UIScreenCapture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIScreenCapture.h; sourceTree = "<group>"; };
 		611528B31C31872500A6B2EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		611528B91C318B7500A6B2EF /* UIScreenCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIScreenCapture.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,8 +48,9 @@
 		611528B01C31872500A6B2EF /* UIScreenCapture */ = {
 			isa = PBXGroup;
 			children = (
-				611528B11C31872500A6B2EF /* UIScreenCapture.h */,
 				611528B31C31872500A6B2EF /* Info.plist */,
+				611528B11C31872500A6B2EF /* UIScreenCapture.h */,
+				611528B91C318B7500A6B2EF /* UIScreenCapture.m */,
 			);
 			path = UIScreenCapture;
 			sourceTree = "<group>";
@@ -130,6 +133,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				611528BA1C318B7500A6B2EF /* UIScreenCapture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

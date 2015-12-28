@@ -6,14 +6,36 @@
 //  Copyright © 2015 UXM Studio. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import AVFoundation;
+@import Foundation;
+@import UIKit;
 
-//! Project version number for UIScreenCapture.
-FOUNDATION_EXPORT double UIScreenCaptureVersionNumber;
+typedef void(^UIScreenCaptureCompletion)(NSURL *fileURL);
 
-//! Project version string for UIScreenCapture.
-FOUNDATION_EXPORT const unsigned char UIScreenCaptureVersionString[];
+@interface UIScreenCapture : NSObject
 
-// In this header, you should import all the public headers of your framework using statements like #import <UIScreenCapture/PublicHeader.h>
+@property (nonatomic, strong) AVAssetWriter *assetWriter;
+@property (nonatomic, strong) AVAssetWriterInput *writerInput;
+@property (nonatomic, strong) AVAssetWriterInputPixelBufferAdaptor *bufferAdapter;
+@property (nonatomic, strong) NSDictionary *videoSettings;
+@property (nonatomic, assign) CMTime frameTime;
+@property (nonatomic, strong) NSURL *fileURL;
+@property (nonatomic) CGFloat height;
+@property (nonatomic) CGFloat width;
+@property (nonatomic) CGFloat frameRate;
+@property (nonatomic, copy) UIScreenCaptureCompletion completionBlock;
 
+- (void)createVideoFromImageURLs:(NSArray *)urls withCompletion:(UIScreenCaptureCompletion)completion;
+- (void)createVideoFromImages:(NSArray *)images withCompletion:(UIScreenCaptureCompletion)completion;
 
+- (void)startRecording;
+- (void)stopRecording;
+
++ (NSDictionary *)videoSettingsWithSize:(CGSize)size;
++ (UIImage *)takeSnapshot;
++ (UIImage *)takeSnapshotWithSize:(CGSize)size;
++ (NSData *)takeSnapshotGetJPEG;
++ (NSData *)takeSnapshotGetJPEG:(CGFloat)quality;
++ (NSData *)takeSnapshotGetJPEG:(CGFloat)quality size:(CGSize)size;
+
+@end
