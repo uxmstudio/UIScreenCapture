@@ -106,26 +106,29 @@ typedef UIImage *(^UIScreenCaptureUIImageExtractor)(NSObject* inputObject);
             if (i >= frameNumber) {
                 break;
             }
-            if ([self.writerInput isReadyForMoreMediaData]) {
-                UIImage *img = extractor([images objectAtIndex:i]);
-                if (img == nil) {
-                    i++;
-                    NSLog(@"Warning: could not extract one of the frames");
-                    continue;
-                }
-                CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[img CGImage]];
-                
-                if (sampleBuffer) {
-                    if (i == 0) {
-                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:kCMTimeZero];
+            
+            @autoreleasepool {
+                if ([self.writerInput isReadyForMoreMediaData]) {
+                    UIImage *img = extractor([images objectAtIndex:i]);
+                    if (img == nil) {
+                        i++;
+                        NSLog(@"Warning: could not extract one of the frames");
+                        continue;
                     }
-                    else {
-                        CMTime lastTime = CMTimeMake(i-1, self.frameTime.timescale);
-                        CMTime presentTime = CMTimeAdd(lastTime, self.frameTime);
-                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];
+                    CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[img CGImage]];
+                    
+                    if (sampleBuffer) {
+                        if (i == 0) {
+                            [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:kCMTimeZero];
+                        }
+                        else {
+                            CMTime lastTime = CMTimeMake(i-1, self.frameTime.timescale);
+                            CMTime presentTime = CMTimeAdd(lastTime, self.frameTime);
+                            [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];
+                        }
+                        CFRelease(sampleBuffer);
+                        i++;
                     }
-                    CFRelease(sampleBuffer);
-                    i++;
                 }
             }
         }
@@ -219,26 +222,29 @@ typedef UIImage *(^UIScreenCaptureUIImageExtractor)(NSObject* inputObject);
             }
             
             NSDate *start = [NSDate date];
-            if ([self.writerInput isReadyForMoreMediaData]) {
-                UIImage *img = [UIScreenCapture takeSnapshotWithSize:size];
-                if (img == nil) {
-                    i++;
-                    NSLog(@"Warning: could not extract one of the frames");
-                    continue;
-                }
-                CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[img CGImage]];
+            @autoreleasepool {
                 
-                if (sampleBuffer) {
-                    if (i == 0) {
-                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:kCMTimeZero];
+                if ([self.writerInput isReadyForMoreMediaData]) {
+                    UIImage *img = [UIScreenCapture takeSnapshotWithSize:size];
+                    if (img == nil) {
+                        i++;
+                        NSLog(@"Warning: could not extract one of the frames");
+                        continue;
                     }
-                    else {
-                        CMTime lastTime = CMTimeMake(i-1, self.frameTime.timescale);
-                        CMTime presentTime = CMTimeAdd(lastTime, self.frameTime);
-                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];
+                    CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[img CGImage]];
+                    
+                    if (sampleBuffer) {
+                        if (i == 0) {
+                            [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:kCMTimeZero];
+                        }
+                        else {
+                            CMTime lastTime = CMTimeMake(i-1, self.frameTime.timescale);
+                            CMTime presentTime = CMTimeAdd(lastTime, self.frameTime);
+                            [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];
+                        }
+                        CFRelease(sampleBuffer);
+                        i++;
                     }
-                    CFRelease(sampleBuffer);
-                    i++;
                 }
             }
             

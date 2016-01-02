@@ -14,7 +14,7 @@ UIScreenCapture is available through [CocoaPods](http://cocoapods.org). To insta
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "UIScreenCapture", '~> 0.0.3'
+pod "UIScreenCapture", '~> 0.0.4'
 ```
 
 # Usage
