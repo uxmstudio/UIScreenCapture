@@ -45,6 +45,31 @@ dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 [UIScreenCapture takeSnapshot];
 ```
 
+## Interface
+```objective-c
+// Variables
+@property (nonatomic) CGFloat height;
+@property (nonatomic) CGFloat width;
+@property (nonatomic) CGFloat frameRate;
+@property (nonatomic, copy) UIScreenCaptureCompletion completionBlock;
+
+// Record screen
+- (void)startRecording;
+- (void)stopRecording;
+
+// Create video from images
+- (void)createVideoFromImageURLs:(NSArray *)urls withCompletion:(UIScreenCaptureCompletion)completion;
+- (void)createVideoFromImages:(NSArray *)images withCompletion:(UIScreenCaptureCompletion)completion;
+
+// Snapshots
++ (UIImage *)takeSnapshot;
++ (UIImage *)takeSnapshotWithSize:(CGSize)size;
++ (NSData *)takeSnapshotGetJPEG;
++ (NSData *)takeSnapshotGetJPEG:(CGFloat)quality;
++ (NSData *)takeSnapshotGetJPEG:(CGFloat)quality size:(CGSize)size;
+
+```
+
 # Author
 Chris Anderson:
 - chris@uxmstudio.com
