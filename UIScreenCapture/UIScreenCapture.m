@@ -241,7 +241,6 @@ typedef UIImage *(^UIScreenCaptureUIImageExtractor)(NSObject* inputObject);
                     i++;
                 }
             }
-            NSLog(@"WRITE FRAME %@", @(i));
             
             CGFloat processingSeconds = [[NSDate date] timeIntervalSinceDate:start];
             CGFloat delayRemaining = (1.0 / self.frameRate) - processingSeconds;
@@ -266,13 +265,21 @@ typedef UIImage *(^UIScreenCaptureUIImageExtractor)(NSObject* inputObject);
     self.recording = NO;
 }
 
+
 #pragma mark - Static methods
 + (NSDictionary *)videoSettingsWithSize:(CGSize)size
 {
     
-    if ((int)size.width % 16 != 0 ) {
-        NSLog(@"Warning: video settings width must be divisible by 16.");
+    if ((int)size.width <= 0) {
+        NSLog(@"Warning: video must have a positive width that is greater than zero.");
     }
+    
+    if ((int)size.width % 16 != 0 ) {
+        NSLog(@"Warning: video width must be divisible by 16. To ensure video does not become warped, width is being rounded up to closest multiple of 16.");
+        size.width = 16.0 * floor((size.width / 16.0) + 0.5);
+    }
+    
+    
     
     NSDictionary *videoSettings = @{AVVideoCodecKey : AVVideoCodecH264,
                                     AVVideoWidthKey : [NSNumber numberWithInt:(int)size.width],
@@ -280,7 +287,6 @@ typedef UIImage *(^UIScreenCaptureUIImageExtractor)(NSObject* inputObject);
     
     return videoSettings;
 }
-
 
 + (UIImage *)takeSnapshot
 {
