@@ -225,7 +225,15 @@ typedef UIImage *(^UIScreenCaptureUIImageExtractor)(NSObject* inputObject);
             @autoreleasepool {
                 
                 if ([self.writerInput isReadyForMoreMediaData]) {
-                    UIImage *img = [UIScreenCapture takeSnapshotWithSize:size];
+                    
+                    UIImage *img;
+                    if (self.view) {
+                        img = [UIScreenCapture takeSnapshotWithSize:size view:self.view];
+                    }
+                    else {
+                        img = [UIScreenCapture takeSnapshotWithSize:size];
+                    }
+                    
                     if (img == nil) {
                         i++;
                         NSLog(@"Warning: could not extract one of the frames");
@@ -316,18 +324,28 @@ typedef UIImage *(^UIScreenCaptureUIImageExtractor)(NSObject* inputObject);
 
 + (UIImage *)takeSnapshotWithSize:(CGSize)size
 {
-    UIWindow *window = [self findKeyWindow];
+    UIImage *image = [self takeSnapshot];
     
-    CGSize windowSize = window.bounds.size;
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
++ (UIImage *)takeSnapshotWithSize:(CGSize)size view:(UIView *)view
+{
+    CGSize viewSize = view.bounds.size;
     
     if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
-        UIGraphicsBeginImageContextWithOptions(windowSize, NO, 1.0);
+        UIGraphicsBeginImageContextWithOptions(viewSize, NO, 1.0);
     }
     else {
-        UIGraphicsBeginImageContext(windowSize);
+        UIGraphicsBeginImageContext(viewSize);
     }
     
-    [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
@@ -352,6 +370,11 @@ typedef UIImage *(^UIScreenCaptureUIImageExtractor)(NSObject* inputObject);
 + (NSData *)takeSnapshotGetJPEG:(CGFloat)quality size:(CGSize)size
 {
     return UIImageJPEGRepresentation([self takeSnapshotWithSize:size], quality);
+}
+
++ (NSData *)takeSnapshotGetJPEG:(CGFloat)quality size:(CGSize)size view:(UIView *)view
+{
+    return UIImageJPEGRepresentation([self takeSnapshotWithSize:size view:view], quality);
 }
 
 + (UIWindow *)findKeyWindow

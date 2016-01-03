@@ -14,7 +14,7 @@ UIScreenCapture is available through [CocoaPods](http://cocoapods.org). To insta
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "UIScreenCapture", '~> 0.0.4'
+pod "UIScreenCapture", '~> 0.0.5'
 ```
 
 # Usage
@@ -51,6 +51,7 @@ dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 @property (nonatomic) CGFloat height;
 @property (nonatomic) CGFloat width;
 @property (nonatomic) CGFloat frameRate;
+@property (nonatomic, strong) UIView *view; // If you wish to capture something other than the whole screen
 @property (nonatomic, copy) UIScreenCaptureCompletion completionBlock;
 
 // Record screen
@@ -64,6 +65,7 @@ dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 // Snapshots
 + (UIImage *)takeSnapshot;
 + (UIImage *)takeSnapshotWithSize:(CGSize)size;
++ (UIImage *)takeSnapshotWithSize:(CGSize)size view:(UIView *)view;
 + (NSData *)takeSnapshotGetJPEG;
 + (NSData *)takeSnapshotGetJPEG:(CGFloat)quality;
 + (NSData *)takeSnapshotGetJPEG:(CGFloat)quality size:(CGSize)size;

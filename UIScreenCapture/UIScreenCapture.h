@@ -23,6 +23,7 @@ typedef void(^UIScreenCaptureCompletion)(NSURL *fileURL);
 @property (nonatomic) CGFloat height;
 @property (nonatomic) CGFloat width;
 @property (nonatomic) CGFloat frameRate;
+@property (nonatomic, strong) UIView *view;
 @property (nonatomic, copy) UIScreenCaptureCompletion completionBlock;
 
 - (void)createVideoFromImageURLs:(NSArray *)urls withCompletion:(UIScreenCaptureCompletion)completion;
@@ -34,8 +35,10 @@ typedef void(^UIScreenCaptureCompletion)(NSURL *fileURL);
 + (NSDictionary *)videoSettingsWithSize:(CGSize)size;
 + (UIImage *)takeSnapshot;
 + (UIImage *)takeSnapshotWithSize:(CGSize)size;
++ (UIImage *)takeSnapshotWithSize:(CGSize)size view:(UIView *)view;
 + (NSData *)takeSnapshotGetJPEG;
 + (NSData *)takeSnapshotGetJPEG:(CGFloat)quality;
 + (NSData *)takeSnapshotGetJPEG:(CGFloat)quality size:(CGSize)size;
++ (NSData *)takeSnapshotGetJPEG:(CGFloat)quality size:(CGSize)size view:(UIView *)view;
 
 @end
