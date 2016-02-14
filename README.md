@@ -9,7 +9,7 @@ Simply capture screenshots and create screen recordings from code.
 
 
 # Installation
-## Cocoapods
+## CocoaPods
 UIScreenCapture is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
